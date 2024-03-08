@@ -1,0 +1,43 @@
+<html xmlns:th="https://www.thymeleaf.org" >
+<body>
+<h1>Liste des personnes</h1>
+<table border="1">
+    <tr><th>Email</th><th>Password</th></tr>
+    <tr th:each="personne : ${personnes}">
+        <td th:text="${personne.email}" />
+        <td th:text="${personne.password}" />
+        <td th:text="${personne.nom}" />
+        <td th:text="${personne.prenom}" />
+    </tr>
+</table>
+<hr/>
+<h1>Initialisation des personnes</h1>
+<form action="/agenda/init" method="post">
+    <input type="submit" value="Init">
+</form>
+<hr/>
+
+<h1>Nouvelle personne</h1>
+<form action="/agenda/add" method="post">
+    <label for="nom">Nom:</label>
+    <input type="text" id="nom" name="nom" required><br>
+    <label for="email">Prenom:</label>
+    <input type="text" id="prenom" name="prenom" required><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email1" name="email" required><br>
+    <label for="password">Mot de passe:</label>
+    <input type="password" id="password1" name="password" required><br>
+    <input type="submit" value="S'inscrire">
+</form>
+
+<form action="/agenda/login" method="post">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+    <label for="password">Mot de passe:</label>
+    <input type="password" id="password" name="password" required><br>
+    <input type="submit" value="Se connecter">
+</form>
+
+
+</body>
+</html>
