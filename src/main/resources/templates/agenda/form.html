@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter un agenda</title>
+</head>
+<body>
+<h1>Ajouter un nouvel agenda</h1>
+<form action="/agenda/add" method="post">
+    <label for="nomAgenda">Nom de l'agenda:</label>
+    <input type="text" id="nomAgenda" name="nomAgenda" required><br>
+    <input type="submit" value="Ajouter">
+</form>
+
+</body>
+</html>

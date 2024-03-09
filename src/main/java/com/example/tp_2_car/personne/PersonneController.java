@@ -1,5 +1,7 @@
 package com.example.tp_2_car.personne;
 
+import com.example.tp_2_car.agenda.Agenda;
+import com.example.tp_2_car.agenda.AgendaService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +12,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
+import java.util.List;
+
 @Controller
 @RequestMapping("/agenda")
 
-public class personneController {
+public class PersonneController {
+
+    private AgendaService agendaService;
     @Autowired
-    private personneService service;
+    private PersonneService service;
     @Autowired
-    private personneRepository personneRepo;
+    private PersonneRepository personneRepo;
 
     @GetMapping("/home")
     private String home(Model model) {
@@ -25,20 +32,23 @@ public class personneController {
         model.addAttribute("personnes", personnes);
         return "agenda/home";
     }
-    @PostMapping("/init")
-    public String init(){
+
+    @PostMapping("/initPersonne")
+    public String init() {
         service.init();
         return "redirect:/agenda/home";
     }
-    @PostMapping("/add")
+
+    @PostMapping("/addPersonne")
     public String addPersonne(
             @RequestParam String email,
             @RequestParam String password,
             @RequestParam String nom,
-            @RequestParam String prenom){
+            @RequestParam String prenom) {
         service.ajouterPersonne(email, password, nom, prenom);
         return "redirect:/agenda/home";
     }
+
     @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password) {
         Personne utilisateur = personneRepo.findByEmail(email);
@@ -49,6 +59,7 @@ public class personneController {
             return "agenda/loginError";
         }
     }
+
     @GetMapping("/logout") //  GetMapping
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
@@ -58,5 +69,8 @@ public class personneController {
         return "redirect:/agenda/home";
     }
 
-}
 
+
+
+
+}

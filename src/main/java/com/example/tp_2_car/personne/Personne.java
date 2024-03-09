@@ -1,20 +1,25 @@
 package com.example.tp_2_car.personne;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.example.tp_2_car.agenda.Agenda;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Personne {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String password;
     private String nom;
     private String prenom;
+    @OneToMany(mappedBy = "personne", cascade = CascadeType.ALL)
+    private List<Agenda> agendas;
 
-    @Id
-    @GeneratedValue
+
+
     public Long getId() {
         return id;
     }
@@ -65,4 +70,14 @@ public class Personne {
         this.nom = nom;
         this.prenom = prenom;
     }
+
+    public List<Agenda> getAgendas() {
+        return agendas;
+    }
+
+    public void setAgendas(List<Agenda> agendas) {
+        this.agendas = agendas;
+    }
+
+
 }

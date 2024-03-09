@@ -1,6 +1,6 @@
 package com.example.tp_2_car.personne;
 
-public interface personneService {
+public interface PersonneService {
 
     void init();
 
