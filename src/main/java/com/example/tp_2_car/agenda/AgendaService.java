@@ -8,8 +8,7 @@ public interface AgendaService {
 
     void init();
 
-
-    void ajouterAgenda(Personne personneId, String nomAgenda);
+    void ajouterAgenda(Personne personne, String nomAgenda);
 
     Iterable<Agenda> getAllAgenda();
 

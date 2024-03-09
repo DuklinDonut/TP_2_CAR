@@ -25,17 +25,24 @@ public class AgendaServiceImpl implements AgendaService {
         agendaRepository.save(new Agenda( personne2,"mon agenda 2"));
     }
 
+
+
     @Override
-    public void ajouterAgenda( Personne personne,String nomAgenda) {
+    public void ajouterAgenda(Personne personne, String nomAgenda) {
         // Recherche de la personne dans la base de données
         Personne existingPersonne = personneRepository.findById(personne.getId()).orElse(null);
 
         if (existingPersonne != null) {
-            // La personne existe, vous pouvez créer l'agenda avec cette personne
-            Agenda agenda = new Agenda( existingPersonne, nomAgenda);
+            // Ajout d'un nouvel agenda pour la personne
+            System.out.println("Ajout d'un nouvel agenda pour la personne : " + existingPersonne.getNom());
+            System.out.println("Nom de l'agenda : " + nomAgenda);
+
+            // Création de l'agenda et sauvegarde dans la base de données
+            Agenda agenda = new Agenda(existingPersonne, nomAgenda);
             agendaRepository.save(agenda);
         } else {
             // Gérer le cas où la personne n'existe pas
+            System.out.println("La personne n'existe pas dans la base de données");
         }
     }
 
@@ -43,7 +50,6 @@ public class AgendaServiceImpl implements AgendaService {
     public Iterable<Agenda> getAllAgenda() {
         return agendaRepository.findAll();
     }
-
 
     @Override
     public List<Agenda> getAgendasByPersonneId(Long id) {

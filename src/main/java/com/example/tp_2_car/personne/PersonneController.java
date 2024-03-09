@@ -50,10 +50,12 @@ public class PersonneController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String email, @RequestParam String password) {
+    public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
         Personne utilisateur = personneRepo.findByEmail(email);
 
         if (utilisateur != null && utilisateur.getPassword().equals(password)) {
+            session.setAttribute("userId", utilisateur.getId());
+            session.setAttribute("userEmail", utilisateur.getEmail());
             return "agenda/feuille";
         } else {
             return "agenda/loginError";

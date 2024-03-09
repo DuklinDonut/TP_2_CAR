@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/agenda")
@@ -50,8 +51,25 @@ public class AgendaController {
         if (userId != null) {
             Personne personne = personneRepository.findById(userId).orElse(null);
             if (personne != null) {
+                // Ajout de messages de log pour vérifier les données
+                System.out.println("Personne trouvée : " + personne.getNom()); // Vous pouvez utiliser un logger au lieu de System.out.println
+                System.out.println("Nom de l'agenda : " + nomAgenda);
                 agendaService.ajouterAgenda(personne, nomAgenda);
+            } else {
+                // Ajouter un message de log si la personne n'est pas trouvée
+                System.out.println("Personne non trouvée avec l'ID : " + userId);
             }
+        } else {
+            // Ajouter un message de log si l'ID de l'utilisateur n'est pas présent dans la session
+            System.out.println("ID de l'utilisateur non trouvé dans la session");
+        }
+        String email = (String) session.getAttribute("userEmail");
+        if (email != null) {
+            System.out.println("Email récupéré de la session : " + email);
+            // Continuer avec le reste du traitement
+        } else {
+            System.out.println("Email non trouvé dans la session.");
+            // Gérer le cas où l'email n'est pas trouvé dans la session
         }
 
         return "redirect:/agenda/listAgenda";
