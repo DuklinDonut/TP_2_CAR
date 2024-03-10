@@ -2,11 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Feuille</title>
+    <title>Bienvenue</title>
 </head>
 <body>
-<h1>Feuille</h1>
-<p>Bienvenue ! Vous êtes connecté.</p>
+<h1>Bienvenue <span th:text="${prenom}"></span> connecté.</h1>
+
+<!-- Display the user's agendas -->
+<h2>Mes Agendas:</h2>
+<ul>
+    <li th:each="agenda : ${agendas}">
+        <span th:text="${agenda.nomAgenda}"></span>
+    </li>
+</ul>
 
 <!-- Button to redirect to the form page -->
 <form action="/agenda/showForm" method="get">

@@ -29,19 +29,19 @@ public class AgendaServiceImpl implements AgendaService {
 
     @Override
     public void ajouterAgenda(Personne personne, String nomAgenda) {
-        // Recherche de la personne dans la base de données
+
         Personne existingPersonne = personneRepository.findById(personne.getId()).orElse(null);
 
         if (existingPersonne != null) {
-            // Ajout d'un nouvel agenda pour la personne
+
             System.out.println("Ajout d'un nouvel agenda pour la personne : " + existingPersonne.getNom());
             System.out.println("Nom de l'agenda : " + nomAgenda);
 
-            // Création de l'agenda et sauvegarde dans la base de données
+            // création de l'agenda et sauvegarde dans la base de données
             Agenda agenda = new Agenda(existingPersonne, nomAgenda);
             agendaRepository.save(agenda);
         } else {
-            // Gérer le cas où la personne n'existe pas
+            // gérer le cas où la personne n'existe pas
             System.out.println("La personne n'existe pas dans la base de données");
         }
     }

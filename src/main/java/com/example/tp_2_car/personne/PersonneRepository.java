@@ -14,4 +14,7 @@ public interface PersonneRepository extends CrudRepository <Personne, Long> {
     @Query("SELECT p FROM Personne p WHERE p.id = :id")
     Optional<Personne> findById(@Param("id") Long id);
 
+    @Query("SELECT p FROM Personne p WHERE p.prenom = :prenom")
+    Optional<Personne> findByPrenom(String prenom);
+
 }
