@@ -1,7 +1,11 @@
 package com.example.tp_2_car.agenda;
 
+import com.example.tp_2_car.evenement.Evenement;
 import com.example.tp_2_car.personne.Personne;
 import jakarta.persistence.*;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Agenda {
@@ -12,6 +16,9 @@ public class Agenda {
     private String nomAgenda;
     @ManyToOne
     private Personne personne;
+
+    @OneToMany(mappedBy = "agenda", cascade = CascadeType.ALL)
+    private List<Evenement> evenements;
 
 
 
@@ -52,5 +59,13 @@ public class Agenda {
         if (personne != null) {
             personne.getAgendas().add(this);
         }
+    }
+
+    public List<Evenement> getEvenements() {
+        return evenements;
+    }
+
+    public void setEvenements(List<Evenement> evenements) {
+        this.evenements = evenements;
     }
 }

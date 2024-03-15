@@ -2,6 +2,7 @@ package com.example.tp_2_car.personne;
 
 import com.example.tp_2_car.agenda.Agenda;
 import com.example.tp_2_car.agenda.AgendaService;
+import com.example.tp_2_car.evenement.EvenementService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,10 +101,6 @@ public class PersonneController {
 
         return "agenda/feuille";
     }
-
-
-
-
 
 
 

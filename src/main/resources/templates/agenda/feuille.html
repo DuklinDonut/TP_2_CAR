@@ -2,26 +2,75 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Bienvenue</title>
+    <title>Ajouter un événement</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(function() {
+            // Initialize datepicker for the dateEvenement field
+            $("#dateEvenement").datepicker({
+                dateFormat: 'dd/mm/yy' // Set date format
+            });
+        });
+
+    </script>
+    <script>
+        function clearMinutes() {
+            var startElement = document.getElementById("startEvenement");
+            var finishElement = document.getElementById("finishEvenement");
+            startElement.value = startElement.value.split(":")[0] + ":00";
+            finishElement.value = finishElement.value.split(":")[0] + ":00";
+        }
+    </script>
 </head>
 <body>
-<h1>Bienvenue <span th:text="${prenom}"></span> connecté.</h1>
+<h1>Ajouter un événement</h1>
 
-<!-- Display the user's agendas -->
-<h2>Mes Agendas:</h2>
-<ul>
-    <li th:each="agenda : ${agendas}">
-        <span th:text="${agenda.nomAgenda}"></span>
-    </li>
-</ul>
+<form action="/evenement/add" method="post">
+    <!-- Nom de l'événement -->
+    <label for="nomEvenement">Nom de l'événement:</label><br>
+    <input type="text" id="nomEvenement" name="nomEvenement"><br><br>
 
-<!-- Button to redirect to the form page -->
-<form action="/agenda/showForm" method="get">
-    <button type="submit">Ajouter un agenda</button>
-</form>
+    <!-- Date de l'événement -->
+    <label for="dateEvenement">Date de l'événement:</label><br>
+    <input type="text" id="dateEvenement" name="dateEvenement"><br><br>
 
-<form action="/agenda/logout" method="get">
-    <button type="submit">Déconnexion</button>
+    <!-- Heure de début -->
+    <label for="startEvenement">Heure de début:</label><br>
+    <input type="time" id="startEvenement" name="startEvenement" required step="3600"><br><br>
+
+    <!-- Heure de fin -->
+    <label for="finishEvenement">Heure de fin:</label><br>
+    <input type="time" id="finishEvenement" name="finishEvenement" required step="3600"><br><br>
+
+
+    <!-- Ajouter à l'agenda -->
+    <label for="agendaId">Ajouter à l'agenda:</label><br>
+    <select id="agendaId" name="agendaId">
+        <!-- Populate options with agendas -->
+        <option value="">Choisir un agenda</option>
+        <th:block th:each="agenda : ${agendas}">
+            <option th:value="${agenda.idAgenda}" th:text="${agenda.nomAgenda}"></option>
+        </th:block>
+    </select><br><br>
+
+    <!-- Affichage des événements pour chaque agenda -->
+    <div th:each="agenda : ${agendas}">
+        <h2 th:text="${agenda.nomAgenda}"></h2>
+        <ul>
+            <th:block th:each="evenement : ${agenda.evenements}">
+                <li>
+                    <span th:text="${evenement.nomEvenement}"></span>
+                    <!-- Lien de suppression avec ID dynamique -->
+                    <a th:href="@{'/evenement/delete?idEvenement=' + ${evenement.idEvenement}}">Delete</a>
+                </li>
+            </th:block>
+        </ul>
+    </div>
+
+    <!-- Bouton pour soumettre le formulaire -->
+    <button type="submit">Ajouter l'événement</button>
 </form>
 
 </body>
