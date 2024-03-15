@@ -75,6 +75,10 @@ public class AgendaController {
         return "redirect:/agenda/feuille";
     }
 
+    @GetMapping("/showEvenements")
+    public String afficherEvenements() {
+        return "agenda/evenements"; // Assurez-vous que le chemin est correct
+    }
 
 
 

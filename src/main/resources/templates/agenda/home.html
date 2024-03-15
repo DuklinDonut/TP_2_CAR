@@ -16,7 +16,17 @@
     <input type="submit" value="Init">
 </form>
 <hr/>
-
+<h1>Liste des agendas</h1>
+<table border="1">
+    <tr>
+        <th>Nom de l'agenda</th>
+        <th>Personne associée</th>
+    </tr>
+    <tr th:each="agenda : ${agendas}">
+        <td th:text="${agenda.nomAgenda}"></td>
+        <td th:text="${agenda.personne.nom}"></td>
+    </tr>
+</table>
 <h1>Initialisation des agendas</h1>
 <form action="/agenda/initAgenda" method="post">
     <input type="submit" value="Initialiser les agendas">

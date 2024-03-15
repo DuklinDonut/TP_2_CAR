@@ -38,7 +38,7 @@ public class EvenementController {
     @PostMapping("/initEvenement")
     public String init() {
         evenementService.init();
-        return "redirect:/evenement/listEvenement";
+        return "redirect:/agenda/home";
     }
 
     @GetMapping("/showForm")
@@ -88,6 +88,24 @@ public class EvenementController {
         evenementService.deleteEvenement(IdEvenement); // Appel de la méthode sur l'instance du service
         return "redirect:/agenda/feuille";
     }
+
+    @GetMapping("/showEvenements")
+    public String afficherEvenements(Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId != null) {
+            // Récupérer les agendas pour l'utilisateur connecté
+            List<Agenda> agendas = agendaRepository.findByPersonneId(userId);
+            model.addAttribute("agendas", agendas);
+        } else {
+            // Gérer le cas où l'ID de l'utilisateur n'est pas trouvé dans la session
+        }
+        return "agenda/evenements";
+    }
+
+
+
+
+
 
 
 
