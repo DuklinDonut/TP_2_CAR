@@ -3,7 +3,6 @@ package com.example.tp_2_car.evenement;
 import com.example.tp_2_car.agenda.Agenda;
 import com.example.tp_2_car.agenda.AgendaRepository;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +24,6 @@ public class EvenementController {
 
     @Autowired
     private AgendaRepository agendaRepository;
-
 
     @GetMapping("/listEvenement")
     public String listEvenement(Model model) {
@@ -43,30 +40,30 @@ public class EvenementController {
 
     @GetMapping("/showForm")
     public String showEvenementForm(Model model) {
-
         return "evenement/form"; // Retourne le nom de la vue Thymeleaf "evenement/form"
     }
 
     @PostMapping("/add")
-    public String addEvenement(@RequestParam String nomEvenement, @RequestParam Date dateEvenement, @RequestParam LocalTime startEvenement, @RequestParam LocalTime finishEvenement, HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
+    public String addEvenement(@RequestParam("agendaId") Long agendaId,
+                               @RequestParam String nomEvenement,
+                               @RequestParam Date dateEvenement,
+                               @RequestParam LocalTime startEvenement,
+                               @RequestParam LocalTime finishEvenement,
+                               HttpSession session) {
+        //Long agendaId = (Long) session.getAttribute("agendaId");
 
-        if (userId != null) {
-            Agenda agenda = agendaRepository.findById(userId).orElse(null);
+        if (agendaId != null) {
+            Agenda agenda = agendaRepository.findById(agendaId).orElse(null);
             if (agenda != null) {
-
-                System.out.println("Agenda trouvée : " + agenda.getNomAgenda());
-                System.out.println("Nom de l'evenement : " + nomEvenement);
+                System.out.println("Agenda trouvé : " + agenda.getNomAgenda());
+                System.out.println("Nom de l'événement : " + nomEvenement);
                 evenementService.ajouterEvenement(agenda, nomEvenement, dateEvenement, startEvenement, finishEvenement);
             } else {
-
-                System.out.println("Agenda non trouvée avec l'ID : " + userId);
+                System.out.println("Agenda non trouvé avec l'ID : " + agendaId);
             }
         } else {
-
             System.out.println("ID de l'agenda non trouvé dans la session");
         }
-
         return "redirect:/agenda/feuille";
     }
 
@@ -76,16 +73,14 @@ public class EvenementController {
                                @RequestParam("startEvenement") LocalTime startEvenement,
                                @RequestParam("finishEvenement") LocalTime finishEvenement,
                                @RequestParam("IdAgenda") Long IdAgenda) {
-
         Agenda agenda = agendaRepository.findById(IdAgenda).orElse(null);
         evenementService.ajouterEvenement(agenda, nomEvenement, dateEvenement, startEvenement, finishEvenement);
-
         return "redirect:/agenda/feuille";
     }
 
     @GetMapping("/delete")
     public String deleteEvenement(@RequestParam("idEvenement") Long IdEvenement) {
-        evenementService.deleteEvenement(IdEvenement); // Appel de la méthode sur l'instance du service
+        evenementService.deleteEvenement(IdEvenement);
         return "redirect:/agenda/feuille";
     }
 
@@ -93,22 +88,21 @@ public class EvenementController {
     public String afficherEvenements(Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         if (userId != null) {
-            // Récupérer les agendas pour l'utilisateur connecté
             List<Agenda> agendas = agendaRepository.findByPersonneId(userId);
-            model.addAttribute("agendas", agendas);
+            model.addAttribute("agendas", agendas); // Ajoutez la liste des agendas au modèle
         } else {
             // Gérer le cas où l'ID de l'utilisateur n'est pas trouvé dans la session
         }
+
+        // Vérifiez s'il n'y a aucun agenda trouvé
+        if (model.containsAttribute("agendas") && ((List<Agenda>) model.getAttribute("agendas")).isEmpty()) {
+            model.addAttribute("noAgendas", true); // Ajoutez un attribut indiquant qu'aucun agenda n'est disponible
+        }
+
         return "agenda/evenements";
     }
 
-
-
-
-
-
-
-
-
-
 }
+
+
+

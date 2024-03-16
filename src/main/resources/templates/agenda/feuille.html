@@ -25,6 +25,15 @@
     </script>
 </head>
 <body>
+<h1>Bonjour <span th:text="${nomUtilisateur}"></span></h1>
+<h1>Ajouter un agenda</h1>
+<!-- Formulaire pour ajouter un nouvel agenda -->
+<form action="/agenda/add" method="post">
+    <label for="nomAgenda">Nom de l'agenda:</label>
+    <input type="text" id="nomAgenda" name="nomAgenda">
+    <button type="submit">Ajouter un agenda</button>
+</form>
+
 <h1>Ajouter un événement</h1>
 
 <form action="/evenement/add" method="post">
@@ -44,7 +53,6 @@
     <label for="finishEvenement">Heure de fin:</label><br>
     <input type="time" id="finishEvenement" name="finishEvenement" required step="3600"><br><br>
 
-
     <!-- Ajouter à l'agenda -->
     <label for="agendaId">Ajouter à l'agenda:</label><br>
     <select id="agendaId" name="agendaId">
@@ -55,25 +63,37 @@
         </th:block>
     </select><br><br>
 
-    <!-- Affichage des événements pour chaque agenda -->
-    <div th:each="agenda : ${agendas}">
-        <h2 th:text="${agenda.nomAgenda}"></h2>
-        <ul>
-            <th:block th:each="evenement : ${agenda.evenements}">
-                <li>
-                    <span th:text="${evenement.nomEvenement}"></span>
-                    <!-- Lien de suppression avec ID dynamique -->
-                    <a th:href="@{'/evenement/delete?idEvenement=' + ${evenement.idEvenement}}">Delete</a>
-                </li>
-            </th:block>
-        </ul>
-    </div>
+    <!-- Ajoutez ceci dans votre formulaire d'ajout d'événement -->
+    <th:block th:each="agenda : ${agendas}">
+        <input type="hidden" th:id="'agendaId_' + ${agenda.idAgenda}" th:name="'agendaId_' + ${agenda.idAgenda}" th:value="${agenda.idAgenda}">
+    </th:block>
 
+    <div th:if="${noAgendas}">
+        <p>Aucun agenda disponible pour l'utilisateur.</p>
+    </div>
+    <div th:unless="${noAgendas}">
+        <!-- Affichez les agendas normalement -->
+        <!-- Affichage des événements pour chaque agenda -->
+        <div th:each="agenda : ${agendas}">
+            <h2 th:text="${agenda.nomAgenda}"></h2>
+            <ul>
+                <th:block th:each="evenement : ${agenda.evenements}">
+                    <li>
+                        <span th:text="${evenement.nomEvenement}"></span>
+                        <!-- Lien de suppression avec ID dynamique -->
+                        <a th:href="@{'/evenement/delete?idEvenement=' + ${evenement.idEvenement}}">Delete</a>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
+    </div>
     <!-- Bouton pour soumettre le formulaire -->
     <button type="submit">Ajouter l'événement</button>
     <a th:href="@{/evenement/showEvenements}">Voir mes événements</a>
 
 </form>
+<!-- Bouton de déconnexion -->
+<a href="/agenda/logout">Déconnexion</a>
 
 </body>
 </html>

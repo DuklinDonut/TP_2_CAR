@@ -5,7 +5,7 @@
     <title>Vos evenement</title>
 </head>
 <body>
-<h1>Vos événements</h1>
+<h1>Mes événements: <span th:text="${nomUtilisateur}"></span></h1>
 
 <!-- Affichage des événements pour chaque agenda -->
 <div th:each="agenda : ${agendas}">
@@ -23,6 +23,8 @@
 <button onclick="window.print()">Imprimer la page</button>
 <!-- Lien pour retourner à la page précédente -->
 <a href="/agenda/feuille">Ajouter un evenement</a>
+<!-- Bouton de déconnexion -->
+<a href="/agenda/logout">Déconnexion</a>
 
 </body>
 </html>

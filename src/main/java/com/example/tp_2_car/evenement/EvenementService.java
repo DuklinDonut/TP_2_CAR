@@ -4,7 +4,6 @@ import com.example.tp_2_car.agenda.Agenda;
 
 import java.time.LocalTime;
 import java.util.Date;
-import java.util.List;
 
 public interface EvenementService {
 
@@ -17,5 +16,5 @@ public interface EvenementService {
     Iterable<Evenement> getAllEvenement();
 
 
-    List<Agenda> getEvenementByAgendaIdAgenda(Long idAgenda);
+    Iterable<Evenement> getEvenementByAgendaIdAgenda(Long idAgenda);
 }

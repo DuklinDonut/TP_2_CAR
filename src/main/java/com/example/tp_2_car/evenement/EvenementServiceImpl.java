@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalTime; // Importez LocalTime
-import java.util.Date; // Importez Date
-import java.util.List;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -64,14 +63,14 @@ public class EvenementServiceImpl implements EvenementService {
         }
     }
 
-
     @Override
     public Iterable<Evenement> getAllEvenement() {
         return evenementRepository.findAll();
     }
 
     @Override
-    public List<Agenda> getEvenementByAgendaIdAgenda(Long idAgenda) {
+    public Iterable<Evenement> getEvenementByAgendaIdAgenda(Long idAgenda) {
         return evenementRepository.findByAgendaIdAgenda(idAgenda);
     }
+
 }
