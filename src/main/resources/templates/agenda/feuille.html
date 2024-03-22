@@ -13,15 +13,6 @@
                 dateFormat: 'dd/mm/yy' // Set date format
             });
         });
-
-    </script>
-    <script>
-        function clearMinutes() {
-            var startElement = document.getElementById("startEvenement");
-            var finishElement = document.getElementById("finishEvenement");
-            startElement.value = startElement.value.split(":")[0] + ":00";
-            finishElement.value = finishElement.value.split(":")[0] + ":00";
-        }
     </script>
 </head>
 <body>
@@ -47,11 +38,11 @@
 
     <!-- Heure de début -->
     <label for="startEvenement">Heure de début:</label><br>
-    <input type="time" id="startEvenement" name="startEvenement" required step="3600"><br><br>
+    <input type="time" id="startEvenement" name="startEvenement"><br><br>
 
     <!-- Heure de fin -->
     <label for="finishEvenement">Heure de fin:</label><br>
-    <input type="time" id="finishEvenement" name="finishEvenement" required step="3600"><br><br>
+    <input type="time" id="finishEvenement" name="finishEvenement"><br><br>
 
     <!-- Ajouter à l'agenda -->
     <label for="agendaId">Ajouter à l'agenda:</label><br>

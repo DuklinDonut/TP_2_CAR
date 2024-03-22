@@ -23,4 +23,6 @@ public class PersonneServiceImpl implements PersonneService {
     public Iterable<Personne> getAllPersonne() {
         return repo.findAll();
     }
+
+
 }

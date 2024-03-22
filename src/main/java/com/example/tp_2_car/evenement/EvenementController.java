@@ -2,6 +2,9 @@ package com.example.tp_2_car.evenement;
 
 import com.example.tp_2_car.agenda.Agenda;
 import com.example.tp_2_car.agenda.AgendaRepository;
+import com.example.tp_2_car.personne.Personne;
+import com.example.tp_2_car.personne.PersonneService;
+import com.example.tp_2_car.personne.PersonneRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/evenement")
@@ -24,6 +28,9 @@ public class EvenementController {
 
     @Autowired
     private AgendaRepository agendaRepository;
+
+    @Autowired
+    private PersonneRepository personneRepository;
 
     @GetMapping("/listEvenement")
     public String listEvenement(Model model) {
@@ -88,19 +95,24 @@ public class EvenementController {
     public String afficherEvenements(Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         if (userId != null) {
+            String nomUtilisateur = (String) session.getAttribute("userPrenom");
+            model.addAttribute("nomUtilisateur", nomUtilisateur);
             List<Agenda> agendas = agendaRepository.findByPersonneId(userId);
-            model.addAttribute("agendas", agendas); // Ajoutez la liste des agendas au modèle
+            model.addAttribute("agendas", agendas);
         } else {
             // Gérer le cas où l'ID de l'utilisateur n'est pas trouvé dans la session
         }
 
         // Vérifiez s'il n'y a aucun agenda trouvé
         if (model.containsAttribute("agendas") && ((List<Agenda>) model.getAttribute("agendas")).isEmpty()) {
-            model.addAttribute("noAgendas", true); // Ajoutez un attribut indiquant qu'aucun agenda n'est disponible
+            model.addAttribute("noAgendas", true);
         }
 
         return "agenda/evenements";
     }
+
+
+
 
 }
 

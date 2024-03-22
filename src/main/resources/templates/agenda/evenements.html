@@ -5,7 +5,7 @@
     <title>Vos evenement</title>
 </head>
 <body>
-<h1>Mes événements: <span th:text="${nomUtilisateur}"></span></h1>
+<h1>Les événements de <span th:text="${nomUtilisateur}"></span></h1>
 
 <!-- Affichage des événements pour chaque agenda -->
 <div th:each="agenda : ${agendas}">
