@@ -77,7 +77,7 @@ public class AgendaController {
 
     @GetMapping("/showEvenements")
     public String afficherEvenements() {
-        return "agenda/evenements"; // Assurez-vous que le chemin est correct
+        return "agenda/evenements";
     }
 
 
